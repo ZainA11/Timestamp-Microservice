@@ -6,10 +6,12 @@ app.get('/', function(req, res){
   res.send('Hello World!');
 });
 
-app.get('/api/:date', (req, res) => {
+app.get('/api/:date?', (req, res) => {
   let inputDate = req.params.date;
   let date;
-  if (/\d{5,}/.test(inputDate)) {
+  if (!inputDate) {
+    date = new Date();
+  } else if (/\d{5,}/.test(inputDate)) {
     date = new Date(parseInt(inputDate));
   } else {
     date = new Date(inputDate);
