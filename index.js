@@ -6,12 +6,19 @@ app.get('/', function(req, res){
   res.send('Hello World!');
 });
 
-app.get('/api:date?', (req, res) =>{
-  let date = new Date();
-  if(req.params.date){
-    date = new Date(req.params.date);
+app.get('/api/:date', (req, res) => {
+  let inputDate = req.params.date;
+  let date;
+  if (/\d{5,}/.test(inputDate)) {
+    date = new Date(parseInt(inputDate));
+  } else {
+    date = new Date(inputDate);
   }
-  res.json({unix: date.getTime(), utc: date.toUTCString()});
+  if (date.toString() === 'Invalid Date') {
+    res.json({ error: 'Invalid Date' });
+  } else {
+    res.json({ unix: date.getTime(), utc: date.toUTCString() });
+  }
 });
 
 app.listen(port, () => {
