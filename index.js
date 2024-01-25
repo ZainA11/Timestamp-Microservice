@@ -6,11 +6,12 @@ app.get('/', function(req, res){
   res.send('Hello World!');
 });
 
-app.get('/api:date', (req, res) =>{
-  let date = req.params.date;
-  let unix = new Date(date).getTime();
-  let utc = new Date(date).toUTCString();
-  res.json({unix: unix, utc: utc});
+app.get('/api:date?', (req, res) =>{
+  let date = new Date();
+  if(req.params.date){
+    date = new Date(req.params.date);
+  }
+  res.json({unix: date.getTime(), utc: date.toUTCString()});
 });
 
 app.listen(port, () => {
